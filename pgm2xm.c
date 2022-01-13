@@ -178,7 +178,7 @@ int readcommand(uint8_t** cmdptr, int chn, int pat)
     }
     else
     {
-        printf("Unknown command %02x in pattern %d channel %d at %04x\n", cmd, pat, chn, *cmdptr-source);
+        printf("Unknown command %02x in pattern %d channel %d at %04lx\n", cmd, pat, chn, *cmdptr-source);
     }
 
     *fptr++ = flag;
@@ -283,7 +283,7 @@ void song2xm(int songptr, uint8_t* title, uint8_t* filename)
     // Parse patterns
     for(i=0; i<num_patterns; i++)
     {
-        printf("Parsing pattern %d\n",i, fptr-filedata);
+        printf("Parsing pattern %d\n",i);
 
         *(uint32_t*)(fptr+0) = 9;
         *(fptr+4) = 0;
@@ -371,7 +371,7 @@ void loadsample(uint8_t* srom, char* filename)
     }
     fclose(samplefile);
 
-    printf("%s loaded at %06x\n", filename, srom-samples );
+    printf("%s loaded at %06lx\n", filename, srom-samples );
 
 }
 
