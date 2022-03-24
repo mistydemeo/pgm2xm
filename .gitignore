@@ -1,1 +1,14 @@
 /pgm2xm
+/pgm2xm.dSYM
+
+# ROMs from active use
+/*.u1
+/*.u5
+/*.u20
+/*.u37
+/*.u42
+/*.rom
+/*.bin
+
+# generated files
+*.xm
