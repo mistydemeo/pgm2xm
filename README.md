@@ -1,7 +1,7 @@
 pgm2xm
 ------
 
-`pgm2xm` is a tool to extact music from games released for the IGS PGM arcade hardware. The sound driver used by most games for the system is in a tracker-based format, which makes it possible to repackage them into tracker modules that can be played on a computer.
+`pgm2xm` is a tool to extact music from games released for the [IGS PGM arcade hardware](https://wiki.arcadeotaku.com/w/IGS_PolyGame_Master). The sound driver used by most games for the system is in a tracker-based format, which makes it possible to repackage them into tracker modules that can be played on a computer.
 
 Usage
 =====
