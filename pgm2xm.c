@@ -37,7 +37,7 @@
     int usebios;
     int ftfix;
 
-    uint8_t default_samplerom [] = "m04401b032.u17";
+    char default_samplerom [] = "m04401b032.u17";
     uint8_t default_title [] =  "pgm2xm";
     //uint8_t default_filename [] = "out.xm";
 
@@ -101,7 +101,7 @@ void storeinstrument(int sampleid)
         fptr[i]=0;
     }
     *(uint32_t*)(fptr+0) = 252;      // Instrument header size
-    sprintf(fptr+4, "%02x at %04x", sampleid, sptr);
+    sprintf((char*)fptr+4, "%02x at %04x", sampleid, sptr);
     *(uint16_t*)(fptr+27) = 1;       // Sample count
     *(uint32_t*)(fptr+29) = 40;      // Sample header size
     fptr += 252;
@@ -111,7 +111,7 @@ void storeinstrument(int sampleid)
     *(fptr+12) = volume;                // sample volume
     *(fptr+14) = flags&0x08 ? 1 : 0;    // loop enable
     *(fptr+15) = 128;                   // panning
-    sprintf(fptr+18, "%02x at %06x", sampleid, startaddr);
+    sprintf((char*)fptr+18, "%02x at %06x", sampleid, startaddr);
     fptr += 40;
 
     uint8_t byte=0, temp=0, delta=0;
@@ -254,13 +254,13 @@ void song2xm(int songptr, uint8_t* title, uint8_t* filename)
     printf("Writing XM header\n");
 
     // truncate strings longer than 20 chars
-    if(strlen(title) > 20)
+    if(strlen((char*)title) > 20)
         title[20] = 0;
 
-    sprintf(filedata, "Extended Module: %s", title);
+    sprintf((char*)filedata, "Extended Module: %s", title);
     *(filedata+37)=0x1a;
     //                    01234567890123456789
-    sprintf(filedata+38, "pgm2xm 151118 by ctr");
+    sprintf((char*)filedata+38, "pgm2xm 151118 by ctr");
     *(uint16_t*)(filedata+58) = 0x104; // XM Version
     fptr += 60;
     *(uint32_t*)(fptr+0) = 276; // Header size
@@ -330,7 +330,7 @@ void song2xm(int songptr, uint8_t* title, uint8_t* filename)
     filesize = fptr-filedata;
 
     FILE *destfile;
-    destfile = fopen(filename,"wb");
+    destfile = fopen((char*)filename,"wb");
     if(!destfile)
     {
         printf("Could not open %s\n",filename);
@@ -511,7 +511,7 @@ int main(int argc, char* argv [])
     {
         uint16_t songptr = (*(uint16_t*)(source+0x70+(songid<<1)));
         printf("Header at %04x\n", songptr);
-        song2xm(songptr, title, filename);
+        song2xm(songptr, (unsigned char*)title, (unsigned char*)filename);
     }
 
     free(source);
