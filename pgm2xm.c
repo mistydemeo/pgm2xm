@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <math.h>
+#include "crc.h"
 
     uint8_t* source;        // Sound driver data
     uint8_t* samples;       // Sample ROM data
@@ -40,6 +41,26 @@
     char default_samplerom [] = "m04401b032.u17";
     uint8_t default_title [] =  "pgm2xm";
     //uint8_t default_filename [] = "out.xm";
+
+// Almost every game uses the default sample start address of 0x400000,
+// but according to MAME there are two exceptions: KOV2 (and KOV2P),
+// and Dragon World 2001. Since every version of those games uses the
+// same sample ROM, we can use the ROM's CRC to figure out if it's
+// one of the two exceptions and return the correct value.
+uint32_t determine_sample_address(char* fname)
+{
+    uint32_t crc;
+    long charcnt;
+    crc32file(fname, &crc, &charcnt);
+    switch (crc) {
+    case 0xb0d88720: // Knights of Valour 2
+        return 0x800000;
+    case 0x4ea62f21: // Dragon World 2001
+        return 0x200000;
+    default:
+        return 0x400000;
+    }
+}
 
 uint8_t instrument(uint8_t id)
 {
@@ -494,7 +515,7 @@ int main(int argc, char* argv [])
     if(usebios)
     {
         loadsample(samples,"pgm_m01s.rom");
-        loadsample(samples+0x400000,samplerom);
+        loadsample(samples+determine_sample_address(samplerom),samplerom);
     }
     else
         loadsample(samples,samplerom);
