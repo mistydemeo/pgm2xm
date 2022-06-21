@@ -281,7 +281,7 @@ void song2xm(int songptr, uint8_t* title, uint8_t* filename)
     sprintf((char*)filedata, "Extended Module: %s", title);
     *(filedata+37)=0x1a;
     //                    01234567890123456789
-    sprintf((char*)filedata+38, "pgm2xm 151118 by ctr");
+    sprintf((char*)filedata+38, "pgm2xm 220515 by ctr");
     *(uint16_t*)(filedata+58) = 0x104; // XM Version
     fptr += 60;
     *(uint32_t*)(fptr+0) = 276; // Header size
@@ -434,7 +434,7 @@ int main(int argc, char* argv [])
 
     if(argc<=startarg)
     {
-        printf("\npgm2xm ver 2015-11-18 by ctr\n\n"
+        printf("\npgm2xm ver 2022-05-15 by ctr\n\n"
                "Usage:\n"
                "\t%s [options] <z80rom.bin> <sample.bin> <songID> [output.xm] [title]\n\n"
                "Options:\n"
