@@ -131,7 +131,7 @@ bool crc32file(char *name, uint32_t *crc, long *charcnt)
       register int c;
 
       oldcrc32 = 0xFFFFFFFF; *charcnt = 0;
-#ifdef MSDOS
+#if defined(MSDOS) || defined(_WIN32)
       if ((fin=fopen(name, "rb"))==NULL)
 #else
       if ((fin=fopen(name, "r"))==NULL)
